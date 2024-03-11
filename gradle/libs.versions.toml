@@ -1,0 +1,126 @@
+[versions]
+androidGradlePlugin = "7.4.2"
+kotlin = "1.9.21"
+
+compileSdk = "34"
+minSdk = "24"
+targetSdk = "34"
+ios-deploymentTarget = "14.1"
+jvmToolchain = "11"
+desktopjvmToolchain = "17"
+calf = "0.3.1"
+
+androidx-core = "1.10.1"
+androidx-activity-compose = "1.7.2"
+androidx-appcompat = "1.6.1"
+compose-version = "1.5.12"
+accompanist-version = "0.28.0"
+hilt-version = "2.46.1"
+constraint-version = "1.0.1"
+ksp = "1.9.21-1.0.15"
+koin-version = "3.4.3"
+koinKspVersion = "1.2.2"
+aayChart-version = "Beta-0.0.5"
+#voyager version
+voyager-version = "1.0.0"
+ktor-version = "2.3.3"
+google-gson-version = "2.10.1"
+serialization_version = "1.6.0"
+ktor-logging-version = "1.5.0"
+coroutine-version = "1.7.3"
+image-loader = "1.2.8"
+kotlin-realm = "1.10.0"
+realm-version = "1.10.0"
+kotlinx-serialization-version = "1.9.0"
+kotlin-datetime-version = "0.4.0"
+androidx-foundation-layout-android-version = "1.5.1"
+compose-coil-version = "2.4.0"
+androidx-ui-text-version = "1.4.3"
+androidx-material3-version = "1.1.1"
+koin-compose-version = "1.0.4"
+moko-geo-version = "0.6.0"
+paging-compose-version="3.3.0-alpha02-0.4.0"
+google-services-version = "4.4.0"
+google-PlayServicesAndroidLocation = "21.1.0"
+google-MapsAndroidComposeVersion = "3.1.0"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-version" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-version" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-version" }
+compose-materialIcons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-version" }
+compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "compose-coil-version" }
+paging-compose= { module = "app.cash.paging:paging-compose-common", version.ref = "paging-compose-version" }
+paging-common= { module = "app.cash.paging:paging-common", version.ref = "paging-compose-version" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-version" }
+compose-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-version" }
+androidx-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "androidx-ui-text-version" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidx-material3-version" }
+google-accompanist = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-version" }
+
+google-play-services-android-location = { module = "com.google.android.gms:play-services-location", version.ref = "google-PlayServicesAndroidLocation" }
+google-maps-android-compose = { module = "com.google.maps.android:maps-compose", version.ref = "google-MapsAndroidComposeVersion" }
+google-maps-android-compose-utils = { module = "com.google.maps.android:maps-compose-utils", version.ref = "google-MapsAndroidComposeVersion" }
+
+androidx-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint-version" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose-version" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-version" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager-version" }
+voyager-bottomsheet-navigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager-version" }
+voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager-version" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager-version" }
+voyager-androidx = { module = "cafe.adriel.voyager:voyager-androidx", version.ref = "voyager-version" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager-version" }
+#ktor
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-version" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor-version" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp-jvm", version.ref = "ktor-version" }
+ktor-client-drawin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor-version" }
+google-code-gson = { module = "com.google.code.gson:gson", version.ref = "google-gson-version" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor-version" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-version" }
+ktor-json-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
+ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor-version" }
+ktor-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor-version" }
+kotlin-realm = { module = "io.realm.kotlin:library-base", version.ref = "kotlin-realm" }
+#realm
+realm-library-base = { module = "io.realm.kotlin:library-base", version.ref = "realm-version" }
+#aay
+aay-chart = { module = "io.github.thechance101:chart", version.ref = "aayChart-version"}
+
+compose-image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-version" }
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koinKspVersion" }
+koin-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koinKspVersion" }
+kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization_version" }
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine-version" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-version" }
+
+calf = { module = "com.mohamedrejeb.calf:calf-ui", version.ref = "calf" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime-version" }
+androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "androidx-foundation-layout-android-version" }
+moko-geo = {module = "dev.icerock.moko:geo", version.ref = "moko-geo-version"}
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version = "23.3.1" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version = "20.4.2" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "32.4.1" }
+
+[bundles]
+voyager = ["voyager-navigator", "voyager-koin", "voyager-transitions"]
+
+
+[plugins]
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-version" }
+google-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version" }
+kotlinKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+realm = { id = "io.realm.kotlin", version.ref = "realm-version" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-version" }
+google-services = { id = "com.google.gms.google-services",  version.ref = "google-services-version" }

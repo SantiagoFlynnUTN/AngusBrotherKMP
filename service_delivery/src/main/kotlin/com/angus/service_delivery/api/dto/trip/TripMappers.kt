@@ -1,0 +1,155 @@
+package com.angus.service_taxi.api.dto.trip
+
+import kotlinx.datetime.LocalDateTime
+import org.bson.types.ObjectId
+import com.angus.service_taxi.data.collection.LocationCollection
+import com.angus.service_taxi.data.collection.TripCollection
+import com.angus.service_taxi.data.collection.relationModel.TripWithTaxi
+import com.angus.service_taxi.domain.entity.Color
+import com.angus.service_taxi.domain.entity.Location
+import com.angus.service_taxi.domain.entity.Trip
+import com.angus.service_taxi.domain.exceptions.CantBeNullException
+
+fun TripDto.toEntity(): Trip {
+    return Trip(
+        id = ObjectId().toString(),
+        taxiId = taxiId,
+        driverId = driverId,
+        clientId = clientId ?: throw CantBeNullException(),
+        orderId = orderId,
+        restaurantId = restaurantId,
+        startPoint = startPoint?.toEntity() ?: throw CantBeNullException(),
+        destination = destination?.toEntity() ?: throw CantBeNullException(),
+        startPointAddress = startPointAddress ?: throw CantBeNullException(),
+        destinationAddress = destinationAddress ?: throw CantBeNullException(),
+        taxiColor = Color.getColorByColorNumber(taxiColor ?: 4278190335L),
+        rate = rate,
+        price = price ?: throw CantBeNullException(),
+        startDate = startDate?.let { LocalDateTime.parse(it) },
+        endDate = endDate?.let { LocalDateTime.parse(it) },
+        isATaxiTrip = isATaxiTrip ?: throw CantBeNullException(),
+        tripStatus = Trip.getOrderStatus(tripStatus)
+    )
+}
+
+fun LocationCollection.toEntity(): Location {
+    return Location(
+        latitude = latitude,
+        longitude = longitude
+    )
+}
+
+fun TripDto.LocationDto.toEntity(): Location {
+    return Location(
+        latitude = latitude,
+        longitude = longitude
+    )
+}
+
+fun Location.toDto(): TripDto.LocationDto {
+    return TripDto.LocationDto(
+        latitude = latitude,
+        longitude = longitude
+    )
+}
+
+fun Location.toCollection(): LocationCollection {
+    return LocationCollection(
+        latitude = latitude,
+        longitude = longitude
+    )
+}
+
+fun Trip.toDto(): TripDto {
+    return TripDto(
+        id = id,
+        taxiId = taxiId,
+        driverId = driverId,
+        clientId = clientId,
+        orderId = orderId,
+        restaurantId = restaurantId,
+        taxiDriverName = driverName,
+        taxiPlateNumber = taxiPlateNumber,
+        taxiColor = taxiColor.colorNumber,
+        startPoint = startPoint.toDto(),
+        destination = destination?.toDto() ?: TripDto.LocationDto(0.0, 0.0),
+        startPointAddress = startPointAddress,
+        destinationAddress = destinationAddress,
+        rate = rate,
+        price = price,
+        startDate = startDate?.toString(),
+        endDate = endDate?.toString(),
+        isATaxiTrip = isATaxiTrip,
+        tripStatus = tripStatus.statusCode
+    )
+}
+
+fun List<Trip>.toDto(): List<TripDto> = map(Trip::toDto)
+
+fun TripCollection.toEntity(): Trip {
+    return Trip(
+        id = id.toString(),
+        taxiId = taxiId?.toString(),
+        driverId = driverId?.toString(),
+        clientId = clientId.toString(),
+        orderId = orderId.toString(),
+        restaurantId = restaurantId.toString(),
+        startPoint = startPoint?.toEntity() ?: throw CantBeNullException(),
+        destination = destination?.toEntity(),
+        startPointAddress = startPointAddress,
+        destinationAddress = destinationAddress,
+        rate = rate,
+        price = price ?: 0.0,
+        startDate = startDate?.let { LocalDateTime.parse(it) },
+        endDate = endDate?.let { LocalDateTime.parse(it) },
+        isATaxiTrip = isATaxiTrip,
+        tripStatus = Trip.getOrderStatus(tripStatus)
+    )
+}
+
+fun List<TripCollection>.toEntity(): List<Trip> = map(TripCollection::toEntity)
+
+fun Trip.toCollection(): TripCollection {
+    return TripCollection(
+        id = ObjectId(id),
+        taxiId = if (taxiId != null) ObjectId(taxiId) else null,
+        driverId = if (driverId != null) ObjectId(driverId) else null,
+        clientId = ObjectId(clientId),
+        orderId = if (orderId != null) ObjectId(orderId) else null,
+        restaurantId = if (restaurantId != null) ObjectId(restaurantId) else null,
+        startPoint = startPoint.toCollection(),
+        destination = destination?.toCollection(),
+        startPointAddress = startPointAddress,
+        destinationAddress = destinationAddress,
+        rate = rate,
+        price = price,
+        startDate = startDate?.toString(),
+        endDate = endDate?.toString(),
+        isATaxiTrip = isATaxiTrip,
+        tripStatus = tripStatus.statusCode
+    )
+}
+
+fun TripWithTaxi.toEntity(): Trip {
+    return Trip(
+        id = id.toString(),
+        taxiId = taxi.id.toString(),
+        driverId = driverId?.toString() ?: "",
+        taxiPlateNumber = taxi.plateNumber ?: "" ,
+        taxiColor = Color.getColorByColorNumber(taxi.color ?: 4278190335L),
+        driverName = taxi.driverUsername ?: "",
+        clientId = clientId.toString(),
+        orderId = orderId?.toString() ?: "",
+        restaurantId = restaurantId?.toString() ?: "",
+        startPoint = startPoint?.toEntity() ?: throw CantBeNullException(),
+        destination = destination?.toEntity(),
+        startPointAddress = startPointAddress,
+        destinationAddress = destinationAddress,
+        rate = rate ?: 0.0,
+        price = price ?: 0.0,
+        startDate = startDate?.let { LocalDateTime.parse(it) },
+        endDate = endDate?.let { LocalDateTime.parse(it) },
+        tripStatus = Trip.getOrderStatus(tripStatus),
+        isATaxiTrip = isATaxiTrip
+    )
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>534375441226-hjj1h9b11mk5436r4fh3qesg34loa9l3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.534375441226-hjj1h9b11mk5436r4fh3qesg34loa9l3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>534375441226-frqqlhmsi3s88idsbhpjrd07l5hfs1n0.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDflK5cSEUlCFFUVkvLvSw03vrnu3bE_jM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>534375441226</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.angus.enduser</string>
+	<key>PROJECT_ID</key>
+	<string>angusbrother-9ccdd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>angusbrother-9ccdd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:534375441226:ios:fd7a0114d01ce0a93a57b3</string>
+</dict>
+</plist>

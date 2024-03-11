@@ -1,0 +1,96 @@
+package com.angus.service_notification.domain.usecases
+
+import org.koin.core.annotation.Single
+import com.angus.service_notification.data.mappers.toNotificationHistory
+import com.angus.service_notification.domain.entity.InternalServerErrorException
+import com.angus.service_notification.domain.entity.NotFoundException
+import com.angus.service_notification.domain.entity.Notification
+import com.angus.service_notification.domain.entity.NotificationHistory
+import com.angus.service_notification.domain.gateway.IDatabaseGateway
+import com.angus.service_notification.domain.gateway.IPushNotificationGateway
+import com.angus.service_notification.endpoints.MISSING_PARAMETER
+import com.angus.service_notification.endpoints.NOTIFICATION_NOT_SENT
+import com.angus.service_notification.endpoints.TOPIC_NOT_EXISTS
+
+interface INotificationManagementUseCase {
+    suspend fun deleteCollection(): Boolean
+    suspend fun sendNotificationToUser(notification: Notification): Boolean
+
+    suspend fun sendNotificationToTopic(notification: Notification): Boolean
+
+    suspend fun getNotificationHistory(page: Int, limit: Int): List<NotificationHistory>
+
+    suspend fun getTotalCountsOfNotificationHistoryForUser(userId: String): Long
+
+    suspend fun getNotificationHistoryForUser(page: Int, limit: Int, userId: String): List<NotificationHistory>
+
+    suspend fun getNotificationHistoryInTheLast24Hours(userId: String): List<NotificationHistory>
+
+    suspend fun clearDeviceToken(deviceToken: String, userId: String): Boolean
+
+    suspend fun clearAllDevicesTokensForUser(userId: String): Boolean
+}
+
+@Single
+class NotificationManagementUseCase(
+    private val pushNotificationGateway: IPushNotificationGateway,
+    private val databaseGateway: IDatabaseGateway,
+) : INotificationManagementUseCase {
+
+    override suspend fun deleteCollection(): Boolean {
+        return databaseGateway.deleteAllNotification()
+    }
+
+    override suspend fun sendNotificationToUser(notification: Notification): Boolean {
+        val tokens = databaseGateway.getUserTokens(notification.userId ?: throw NotFoundException(MISSING_PARAMETER))
+        return pushNotificationGateway.sendNotification(tokens, notification.title, notification.body).also {
+            databaseGateway.addNotificationToHistory(notification.toNotificationHistory())
+//            if (it) {
+//                databaseGateway.addNotificationToHistory(notification.toNotificationHistory())
+//            } else {
+//                throw InternalServerErrorException(NOTIFICATION_NOT_SENT)
+//            }
+        }
+    }
+
+    override suspend fun sendNotificationToTopic(notification: Notification): Boolean {
+        if (!databaseGateway.isTopicAlreadyExists(notification.topic ?: throw NotFoundException(MISSING_PARAMETER))) {
+            throw NotFoundException(TOPIC_NOT_EXISTS)
+        }
+        return pushNotificationGateway.sendNotificationToTopic(
+            notification.topic,
+            notification.title,
+            notification.body
+        ).also {
+            databaseGateway.addNotificationToHistory(notification.toNotificationHistory())
+        }
+    }
+
+    override suspend fun getNotificationHistory(page: Int, limit: Int): List<NotificationHistory> {
+        return databaseGateway.getNotificationHistoryForUser(page, limit)
+    }
+
+    override suspend fun getTotalCountsOfNotificationHistoryForUser(userId: String): Long {
+        return databaseGateway.getTotalCountsOfNotificationHistoryForUser(userId)
+    }
+
+    override suspend fun getNotificationHistoryForUser(
+        page: Int,
+        limit: Int,
+        userId: String
+    ): List<NotificationHistory> {
+        return databaseGateway.getNotificationHistoryForUser(page = page, limit = limit, userId = userId)
+    }
+
+    override suspend fun getNotificationHistoryInTheLast24Hours(userId: String): List<NotificationHistory> {
+        return databaseGateway.getNotificationHistoryInTheLast24Hours(userId)
+    }
+
+    override suspend fun clearDeviceToken(deviceToken: String, userId: String): Boolean {
+        return databaseGateway.clearDeviceToken( deviceToken = deviceToken , userId =  userId)
+    }
+
+    override suspend fun clearAllDevicesTokensForUser(userId: String): Boolean {
+        return databaseGateway.clearAllDeviceUserTokens(userId)
+    }
+}
