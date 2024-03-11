@@ -19,10 +19,11 @@ import com.angus.api_gateway.data.utils.ErrorHandler
 import com.angus.api_gateway.data.utils.tryToExecute
 import com.angus.api_gateway.data.utils.tryToExecuteWebSocket
 import com.angus.api_gateway.util.APIs
+import org.koin.core.annotation.Named
 
 @Single
 class RestaurantService(
-    private val client: HttpClient,
+    @Named("restaurant_client") private val client: HttpClient,
     private val attributes: Attributes,
     private val errorHandler: ErrorHandler,
 ) {

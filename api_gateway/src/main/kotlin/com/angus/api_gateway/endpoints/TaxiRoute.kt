@@ -18,13 +18,13 @@ import com.angus.api_gateway.data.model.taxi.TripStatus.*
 import com.angus.api_gateway.data.service.IdentityService
 import com.angus.api_gateway.data.service.NotificationService
 import com.angus.api_gateway.data.service.RestaurantService
-import com.angus.api_gateway.data.service.TaxiService
+import com.angus.api_gateway.data.service.DeliveryService
 import com.angus.api_gateway.endpoints.utils.*
 import com.angus.api_gateway.util.Claim
 import com.angus.api_gateway.util.Role
 
 fun Route.taxiRoutes() {
-    val taxiService: TaxiService by inject()
+    val deliveryService: DeliveryService by inject()
     val identityService: IdentityService by inject()
     val restaurantService: RestaurantService by inject()
     val localizedMessagesFactory by inject<LocalizedMessagesFactory>()
@@ -37,7 +37,7 @@ fun Route.taxiRoutes() {
                 val language = extractLocalizationHeader()
                 val page = call.parameters["page"]?.toInt() ?: 1
                 val limit = call.parameters["limit"]?.toInt() ?: 20
-                val result = taxiService.getAllTaxi(language, page, limit)
+                val result = deliveryService.getAllTaxi(language, page, limit)
                 respondWithResult(HttpStatusCode.OK, result)
             }
 
@@ -45,7 +45,7 @@ fun Route.taxiRoutes() {
                 val taxiDto = call.receive<TaxiDto>()
                 val language = extractLocalizationHeader()
                 val user = identityService.getUserByUsername(taxiDto.driverUsername, language)
-                val result = taxiService.createTaxi(taxiDto.copy(driverId = user.id), language)
+                val result = deliveryService.createTaxi(taxiDto.copy(driverId = user.id), language)
                 val successMessage = localizedMessagesFactory.createLocalizedMessages(language).taxiCreatedSuccessfully
                 respondWithResult(HttpStatusCode.Created, result, successMessage)
             }
@@ -54,7 +54,7 @@ fun Route.taxiRoutes() {
                 val id = call.parameters["taxiId"] ?: ""
                 val taxiDto = call.receive<TaxiDto>()
                 val language = extractLocalizationHeader()
-                val result = taxiService.editTaxi(id, taxiDto, language)
+                val result = deliveryService.editTaxi(id, taxiDto, language)
                 val successMessage = localizedMessagesFactory.createLocalizedMessages(language).taxiUpdateSuccessfully
                 respondWithResult(HttpStatusCode.OK, result, successMessage)
             }
@@ -62,7 +62,7 @@ fun Route.taxiRoutes() {
             delete("/{taxiId}") {
                 val language = extractLocalizationHeader()
                 val id = call.parameters["taxiId"] ?: ""
-                val result = taxiService.deleteTaxi(id, language)
+                val result = deliveryService.deleteTaxi(id, language)
                 val successMessage = localizedMessagesFactory.createLocalizedMessages(language).taxiDeleteSuccessfully
                 respondWithResult(HttpStatusCode.OK, result, successMessage)
             }
@@ -71,7 +71,7 @@ fun Route.taxiRoutes() {
         get("/{taxiId}") {
             val id = call.parameters["taxiId"] ?: ""
             val language = extractLocalizationHeader()
-            val result = taxiService.getTaxiById(id, language)
+            val result = deliveryService.getTaxiById(id, language)
             respondWithResult(HttpStatusCode.OK, result)
         }
     }
@@ -86,7 +86,7 @@ fun Route.taxiRoutes() {
                 val status = call.request.queryParameters["status"]?.trim()?.toBoolean()
                 val color = call.request.queryParameters["color"]?.trim()?.toLongOrNull()
                 val seats = call.request.queryParameters["seats"]?.trim()?.toIntOrNull()
-                val result = taxiService.findTaxisByQuery(page, limit, status, color, seats, query, language)
+                val result = deliveryService.findTaxisByQuery(page, limit, status, color, seats, query, language)
                 respondWithResult(HttpStatusCode.OK, result)
             }
         }
@@ -96,7 +96,7 @@ fun Route.taxiRoutes() {
                 val language = extractLocalizationHeader()
                 val tokenClaim = call.principal<JWTPrincipal>()
                 val driverId = tokenClaim?.get(Claim.USER_ID).toString()
-                val taxis = taxiService.getTaxisByDriverId(driverId = driverId, language)
+                val taxis = deliveryService.getTaxisByDriverId(driverId = driverId, language)
                 respondWithResult(HttpStatusCode.OK, taxis)
             }
         }
@@ -106,7 +106,7 @@ fun Route.taxiRoutes() {
                 val language = extractLocalizationHeader()
                 val tokenClaim = call.principal<JWTPrincipal>()
                 val driverId = tokenClaim?.get(Claim.USER_ID).toString()
-                val taxis = taxiService.getTaxisByDriverId(driverId = driverId, language)
+                val taxis = deliveryService.getTaxisByDriverId(driverId = driverId, language)
                 respondWithResult(HttpStatusCode.OK, taxis)
             }
         }
@@ -116,14 +116,14 @@ fun Route.taxiRoutes() {
         get("/{tripId}") {
             val language = extractLocalizationHeader()
             val tripId = call.parameters["tripId"]?.trim().orEmpty()
-            val trip = taxiService.getTripById(tripId = tripId, language)
+            val trip = deliveryService.getTripById(tripId = tripId, language)
             respondWithResult(HttpStatusCode.OK, trip)
         }
 
         get("/user/{orderId}") {
             val language = extractLocalizationHeader()
             val orderId = call.parameters["orderId"]?.trim().orEmpty()
-            val trip = taxiService.getTripByOrderId(orderId, language)
+            val trip = deliveryService.getTripByOrderId(orderId, language)
             respondWithResult(HttpStatusCode.OK, trip)
         }
 
@@ -134,7 +134,7 @@ fun Route.taxiRoutes() {
                 val page = call.parameters["page"]?.trim()?.toInt() ?: 1
                 val limit = call.parameters["limit"]?.trim()?.toInt() ?: 10
                 val language = extractLocalizationHeader()
-                val result = taxiService.getTripsHistoryForUser(
+                val result = deliveryService.getTripsHistoryForUser(
                     userId = userId,
                     page = page,
                     limit = limit,
@@ -151,7 +151,7 @@ fun Route.taxiRoutes() {
                 val userId = tokenClaim?.get(Claim.USER_ID).toString()
                 val successMessage = localizedMessagesFactory.createLocalizedMessages(language).tripCreatedSuccessfully
                 val restaurantOrder = call.receive<TripDto>()
-                val createdTrip = taxiService.createTrip(restaurantOrder.copy(clientId = userId), language)
+                val createdTrip = deliveryService.createTrip(restaurantOrder.copy(clientId = userId), language)
                 respondWithResult(HttpStatusCode.Created, createdTrip, successMessage)
             }
         }
@@ -178,7 +178,7 @@ fun Route.taxiRoutes() {
                         errorMessage = mapOf(400 to "Restaurant with this id Not found"),
                     )
                 } else {
-                    val createdTrip = taxiService.createTrip(trip, language)
+                    val createdTrip = deliveryService.createTrip(trip, language)
                     respondWithResult(HttpStatusCode.Created, createdTrip, successMessage)
                 }
             }
@@ -189,7 +189,7 @@ fun Route.taxiRoutes() {
                 val tokenClaim = call.principal<JWTPrincipal>()
                 val driverId = tokenClaim?.get(Claim.USER_ID).toString()
                 val language = extractLocalizationHeaderFromWebSocket()
-                val taxiTrips = taxiService.getTaxiTrips(driverId)
+                val taxiTrips = deliveryService.getTaxiTrips(driverId)
                 webSocketServerHandler.sessions[driverId] = this
                 webSocketServerHandler.sessions[driverId]?.let { session ->
                     webSocketServerHandler.tryToCollectAndMapToTaxiTrip(
@@ -206,7 +206,7 @@ fun Route.taxiRoutes() {
                 val tokenClaim = call.principal<JWTPrincipal>()
                 val deliveryId = tokenClaim?.get(Claim.USER_ID).toString()
                 val language = extractLocalizationHeaderFromWebSocket()
-                val deliveryTrips = taxiService.getDeliveryTrips(deliveryId)
+                val deliveryTrips = deliveryService.getDeliveryTrips(deliveryId)
                 webSocketServerHandler.sessions[deliveryId] = this
                 webSocketServerHandler.sessions[deliveryId]?.let { session ->
                     webSocketServerHandler.tryToCollectAndMapToDeliveryTrip(
@@ -222,7 +222,7 @@ fun Route.taxiRoutes() {
             webSocket("/track/taxi-ride/{tripId}") {
                 val tripId = call.parameters["tripId"]?.trim().orEmpty()
                 val language = extractLocalizationHeaderFromWebSocket()
-                val ride = taxiService.trackOrderRequest(tripId)
+                val ride = deliveryService.trackOrderRequest(tripId)
                 webSocketServerHandler.sessions[tripId] = this
                 webSocketServerHandler.sessions[tripId]?.let { session ->
                     webSocketServerHandler.tryToTrackTaxiRide(
@@ -236,7 +236,7 @@ fun Route.taxiRoutes() {
             webSocket("/track/delivery-ride/{tripId}") {
                 val tripId = call.parameters["tripId"]?.trim().orEmpty()
                 val language = extractLocalizationHeaderFromWebSocket()
-                val delivery = taxiService.trackOrderRequest(tripId)
+                val delivery = deliveryService.trackOrderRequest(tripId)
                 webSocketServerHandler.sessions[tripId] = this
                 webSocketServerHandler.sessions[tripId]?.let { session ->
                     webSocketServerHandler.tryToCollectAndMapToDeliveryTrip(
@@ -258,7 +258,7 @@ fun Route.taxiRoutes() {
                 val tripId = parameters["tripId"]?.trim().orEmpty()
                 val driverId = tokenClaim?.get(Claim.USER_ID).toString()
                 val approvedTrip =
-                    taxiService.updateTrip(taxiId = taxiId, tripId = tripId, driverId = driverId, language)
+                    deliveryService.updateTrip(taxiId = taxiId, tripId = tripId, driverId = driverId, language)
                 respondWithResult(HttpStatusCode.OK, approvedTrip, successMessage)
 
                 val tripStatus = TripStatus.getOrderStatus(approvedTrip.tripStatus)
@@ -291,7 +291,7 @@ fun Route.taxiRoutes() {
                 val tripId = parameters["tripId"]?.trim().orEmpty()
                 val deliveryId = tokenClaim?.get(Claim.USER_ID).toString()
                 val approvedTrip =
-                    taxiService.updateTrip(taxiId = taxiId, tripId = tripId, driverId = deliveryId, language)
+                    deliveryService.updateTrip(taxiId = taxiId, tripId = tripId, driverId = deliveryId, language)
                 respondWithResult(HttpStatusCode.OK, approvedTrip, successMessage)
 
                 val tripStatus = TripStatus.getOrderStatus(approvedTrip.tripStatus)

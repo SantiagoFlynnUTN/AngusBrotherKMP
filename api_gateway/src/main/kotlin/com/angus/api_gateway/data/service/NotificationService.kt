@@ -13,10 +13,11 @@ import com.angus.api_gateway.data.model.notification.NotificationHistoryDto
 import com.angus.api_gateway.data.utils.ErrorHandler
 import com.angus.api_gateway.data.utils.tryToExecute
 import com.angus.api_gateway.util.APIs
+import org.koin.core.annotation.Named
 
 @Single
 class NotificationService(
-    private val client: HttpClient,
+    @Named("notification_client") private val client: HttpClient,
     private val attributes: Attributes,
     private val errorHandler: ErrorHandler,
 ) {

@@ -28,11 +28,12 @@ import com.angus.api_gateway.util.Claim.PERMISSION
 import com.angus.api_gateway.util.Claim.TOKEN_TYPE
 import com.angus.api_gateway.util.Claim.USERNAME
 import com.angus.api_gateway.util.Claim.USER_ID
+import org.koin.core.annotation.Named
 import java.util.*
 
 @Single
 class IdentityService(
-    private val client: HttpClient,
+    @Named("identity_client") private val client: HttpClient,
     private val attributes: Attributes,
     private val errorHandler: ErrorHandler,
 ) {

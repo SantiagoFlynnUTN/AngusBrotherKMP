@@ -15,7 +15,7 @@ import com.angus.api_gateway.data.model.taxi.toDeliveryTripResponse
 import com.angus.api_gateway.data.service.IdentityService
 import com.angus.api_gateway.data.service.NotificationService
 import com.angus.api_gateway.data.service.RestaurantService
-import com.angus.api_gateway.data.service.TaxiService
+import com.angus.api_gateway.data.service.DeliveryService
 import com.angus.api_gateway.endpoints.utils.authenticateWithRole
 import com.angus.api_gateway.endpoints.utils.extractLocalizationHeader
 import com.angus.api_gateway.endpoints.utils.hasPermission
@@ -26,7 +26,7 @@ import com.angus.api_gateway.util.Role
 fun Route.userRoutes() {
     val identityService: IdentityService by inject()
     val restaurantService: RestaurantService by inject()
-    val taxiService: TaxiService by inject()
+    val deliveryService: DeliveryService by inject()
     val notificationService: NotificationService by inject()
 
     authenticateWithRole(Role.DASHBOARD_ADMIN) {
@@ -61,7 +61,7 @@ fun Route.userRoutes() {
                 val result = identityService.deleteUser(userId = id, language)
                 if (result) {
                     if (hasPermission(user.permission, Role.TAXI_DRIVER)) {
-                        taxiService.deleteTaxiByDriverId(user.id)
+                        deliveryService.deleteTaxiByDriverId(user.id)
                     }
                     if (hasPermission(user.permission, Role.RESTAURANT_OWNER)) {
                         restaurantService.deleteRestaurantByOwnerId(user.id)
@@ -159,7 +159,7 @@ fun Route.userRoutes() {
                 val tokenClaim = call.principal<JWTPrincipal>()
                 val userId = tokenClaim?.get(Claim.USER_ID).toString()
                 val language = extractLocalizationHeader()
-                val trips = taxiService.getActiveTripsByUserId(userId, language).filter { it.restaurantId == "" }
+                val trips = deliveryService.getActiveTripsByUserId(userId, language).filter { it.restaurantId == "" }
                 respondWithResult(HttpStatusCode.OK, trips)
             }
 
@@ -167,7 +167,7 @@ fun Route.userRoutes() {
                 val tokenClaim = call.principal<JWTPrincipal>()
                 val userId = tokenClaim?.get(Claim.USER_ID).toString()
                 val language = extractLocalizationHeader()
-                val trips = taxiService.getActiveTripsByUserId(userId, language).filter { it.restaurantId != "" }
+                val trips = deliveryService.getActiveTripsByUserId(userId, language).filter { it.restaurantId != "" }
                 val restaurantIds = trips.mapNotNull { it.restaurantId }.distinct()
                 val restaurantInfo = restaurantService.getRestaurants(restaurantIds, language)
                 val restaurantInfoMap = restaurantInfo.associateBy { it.id }
@@ -203,7 +203,7 @@ fun Route.userRoutes() {
         val resultIdentity = identityService.clearIdentityDB()
         restaurantService.deleteAllCollections()
         notificationService.deleteNotificationCollection()
-        val resultTaxi = taxiService.deleteTaxiAndTripsCollections()
+        val resultTaxi = deliveryService.deleteTaxiAndTripsCollections()
         val result = resultIdentity.and(resultTaxi)
         respondWithResult(HttpStatusCode.OK, result)
     }

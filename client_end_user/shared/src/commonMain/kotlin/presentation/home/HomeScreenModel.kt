@@ -244,6 +244,7 @@ class HomeScreenModel(
                     checkCartHasMeals()
                     getLiveOrders()
                 } else {
+                    println("onRender else")
                     updateState { it.copy(isLoggedIn = false, isLoadingUser = false, showCart = false) }
                 }
             }
@@ -251,6 +252,7 @@ class HomeScreenModel(
     }
 
     private fun onErrorLoadingUser(errorState: ErrorState) {
+        println("onRender onErrorLoadingUser")
         updateState { it.copy(isLoggedIn = false) }
         updateState { it.copy(isLoadingUser = false) }
     }
@@ -297,6 +299,7 @@ class HomeScreenModel(
     }
 
     private fun onGetUserError(errorState: ErrorState) {
+        println("onRender onErrorLoadingUser")
         updateState { it.copy(isLoggedIn = false) }
     }
 

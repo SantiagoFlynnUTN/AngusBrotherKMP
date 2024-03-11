@@ -31,7 +31,6 @@ import presentation.composable.exitinstion.drawTopIndicator
 import presentation.composable.exitinstion.toPx
 import util.getNavigationBarPadding
 
-
 object MainContainer : Screen {
 
     @Composable
@@ -47,7 +46,7 @@ object MainContainer : Screen {
                     Column(Modifier.fillMaxSize().padding(bottom = it.calculateBottomPadding())) {
                         CurrentTab()
                     }
-                }
+                },
             )
         }
     }
@@ -62,7 +61,7 @@ object MainContainer : Screen {
 
         BpNavigationBar(
             modifier = Modifier.background(Theme.colors.surface)
-                .drawTopIndicator(xOffsetAnimated).padding(getNavigationBarPadding())
+                .drawTopIndicator(xOffsetAnimated).padding(getNavigationBarPadding()),
         ) {
             tabs.forEach { tabContainer ->
                 val selected = tabNavigator.current == tabContainer.tab
@@ -80,7 +79,7 @@ object MainContainer : Screen {
                                     xIndicatorOffset =
                                         it.positionInRoot().x + (iconSizePx - indicatorWidthPx) / 2
                                 }
-                            }
+                            },
                         )
                     },
                     label = { Text(text = tabContainer.tab.options.title, style = it) },

@@ -15,17 +15,18 @@ import com.angus.api_gateway.data.utils.ErrorHandler
 import com.angus.api_gateway.data.utils.tryToExecute
 import com.angus.api_gateway.data.utils.tryToExecuteWebSocket
 import com.angus.api_gateway.util.APIs
+import org.koin.core.annotation.Named
 
 @Single
-class TaxiService(
-    private val client: HttpClient,
+class DeliveryService(
+    @Named("delivery_client") private val client: HttpClient,
     private val attributes: Attributes,
     private val errorHandler: ErrorHandler,
 ) {
 
     suspend fun getAllTaxi(languageCode: String, page: Int, limit: Int): PaginationResponse<TaxiDto> {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
@@ -38,7 +39,7 @@ class TaxiService(
 
     suspend fun getTaxiById(id: String, languageCode: String): TaxiDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { get("/taxi/$id") }
@@ -47,7 +48,7 @@ class TaxiService(
 
     suspend fun getTaxisByDriverId(driverId: String, languageCode: String): List<TaxiDto> {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { get("/taxis/$driverId") }
@@ -57,7 +58,7 @@ class TaxiService(
     @OptIn(InternalAPI::class)
     suspend fun createTaxi(taxiDto: TaxiDto, languageCode: String): TaxiDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { post("/taxi") { body = Json.encodeToString(TaxiDto.serializer(), taxiDto) } }
@@ -67,7 +68,7 @@ class TaxiService(
     @OptIn(InternalAPI::class)
     suspend fun editTaxi(id: String, taxiDto: TaxiDto, languageCode: String): TaxiDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { put("/taxi/$id") { body = Json.encodeToString(TaxiDto.serializer(), taxiDto) } }
@@ -76,7 +77,7 @@ class TaxiService(
 
     suspend fun deleteTaxi(id: String, languageCode: String): TaxiDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { delete("/taxi/$id") }
@@ -93,7 +94,7 @@ class TaxiService(
         language: String,
     ): PaginationResponse<TaxiDto> {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) }
         ) {
@@ -111,7 +112,7 @@ class TaxiService(
     @OptIn(InternalAPI::class)
     suspend fun createTrip(trip: TripDto, languageCode: String): TripDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { post("/trip") { body = Json.encodeToString(TripDto.serializer(), trip) } }
@@ -120,7 +121,7 @@ class TaxiService(
 
     suspend fun getTaxiTrips(driverId: String): Flow<TripDto> {
         return client.tryToExecuteWebSocket<TripDto>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             path = "/trip/taxi/$driverId",
         )
@@ -128,7 +129,7 @@ class TaxiService(
 
     suspend fun getDeliveryTrips(deliveryId: String): Flow<TripDto> {
         return client.tryToExecuteWebSocket<TripDto>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             path = "/trip/delivery/$deliveryId",
         )
@@ -136,7 +137,7 @@ class TaxiService(
 
     suspend fun trackOrderRequest(tripId: String): Flow<TripDto> {
         return client.tryToExecuteWebSocket<TripDto>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             path = "/trip/track/$tripId",
         )
@@ -144,7 +145,7 @@ class TaxiService(
 
     suspend fun getTripById(tripId: String, languageCode: String): TripDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { get("/trip/$tripId") }
@@ -153,7 +154,7 @@ class TaxiService(
 
     suspend fun getTripByOrderId(orderId: String, languageCode: String): TripDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { get("/trip/user/$orderId") }
@@ -167,7 +168,7 @@ class TaxiService(
         languageCode: String,
     ): PaginationResponse<TripDto> {
         return client.tryToExecute<PaginationResponse<TripDto>>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { get("/trip/client/$userId?page=$page&&limit=$limit") }
@@ -177,7 +178,7 @@ class TaxiService(
     @OptIn(InternalAPI::class)
     suspend fun updateTrip(taxiId: String, tripId: String, driverId: String, languageCode: String): TripDto {
         return client.tryToExecute(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
         ) {
@@ -193,7 +194,7 @@ class TaxiService(
 
     suspend fun deleteTaxiByDriverId(id: String): Boolean {
         return client.tryToExecute<Boolean>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             method = { delete("/taxi/driver/$id") }
         )
@@ -201,7 +202,7 @@ class TaxiService(
 
     suspend fun getActiveTripsByUserId(userId: String, languageCode: String): List<TripDto> {
         return client.tryToExecute<List<TripDto>>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
             method = { get("/trip/actives/$userId") }
@@ -210,7 +211,7 @@ class TaxiService(
 
     suspend fun deleteTaxiAndTripsCollections(): Boolean {
         return client.tryToExecute<Boolean>(
-            api = APIs.TAXI_API,
+            api = APIs.DELIVERY_API,
             attributes = attributes,
             method = { delete("/taxi-trips") }
         )

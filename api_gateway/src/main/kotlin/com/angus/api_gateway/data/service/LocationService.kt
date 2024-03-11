@@ -8,10 +8,11 @@ import com.angus.api_gateway.data.model.LocationDto
 import com.angus.api_gateway.data.utils.tryToExecuteWebSocket
 import com.angus.api_gateway.data.utils.tryToSendWebSocketData
 import com.angus.api_gateway.util.APIs
+import org.koin.core.annotation.Named
 
 @Single
 class LocationService(
-    private val client: HttpClient,
+    @Named("location_client") private val client: HttpClient,
     private val attributes: Attributes,
 ) {
     suspend fun sendLocation(location: LocationDto, tripId: String) {

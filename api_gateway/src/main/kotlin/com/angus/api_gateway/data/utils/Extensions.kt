@@ -15,7 +15,7 @@ import com.angus.api_gateway.util.EnvConfig
 
 val apiHosts = mapOf(
     APIs.RESTAURANT_API.value to (System.getenv("RESTAURANT_API") ?: EnvConfig.RESTAURANT_API),
-    APIs.TAXI_API.value to (System.getenv("TAXI_API") ?: EnvConfig.TAXI_API),
+    APIs.DELIVERY_API.value to (System.getenv("TAXI_API") ?: EnvConfig.TAXI_API),
     APIs.IDENTITY_API.value to (System.getenv("IDENTITY_API") ?: EnvConfig.IDENTITY_API),
     APIs.NOTIFICATION_API.value to (System.getenv("NOTIFICATION_API") ?: EnvConfig.NOTIFICATION_API),
     APIs.LOCATION_API.value to (System.getenv("LOCATION_API") ?: EnvConfig.LOCATION_API),
@@ -45,7 +45,7 @@ suspend inline fun <reified T> HttpClient.tryToExecuteWebSocket(
     attributes: Attributes
 ): Flow<T> {
     attributes.put(AttributeKey("API"), api.value)
-    val host = apiHosts[api.value]
+    val host = api.value
     return flow {
         webSocket(urlString = "ws://$host$path") {
             while (true) {

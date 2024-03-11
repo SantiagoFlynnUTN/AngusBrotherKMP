@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
-import com.angus.api_gateway.data.model.notification.NotificationDto
 import com.angus.api_gateway.data.model.taxi.TripDto
 import com.angus.api_gateway.data.model.taxi.toDeliveryTripResponse
 import com.angus.api_gateway.data.model.taxi.toRideTrackingResponse
@@ -16,14 +15,14 @@ import com.angus.api_gateway.data.model.taxi.toTaxiTripResponse
 import com.angus.api_gateway.data.service.IdentityService
 import com.angus.api_gateway.data.service.NotificationService
 import com.angus.api_gateway.data.service.RestaurantService
-import com.angus.api_gateway.data.service.TaxiService
+import com.angus.api_gateway.data.service.DeliveryService
 import java.util.concurrent.ConcurrentHashMap
 
 @Single
 class WebSocketServerHandler(
     private val identityService: IdentityService,
     private val restaurantService: RestaurantService,
-    private val taxiService: TaxiService,
+    private val deliveryService: DeliveryService,
     val notificationService: NotificationService
 ) {
 
@@ -98,7 +97,7 @@ class WebSocketServerHandler(
         try {
             values
                 .map { tripDto ->
-                    val taxi = taxiService.getTaxiById(tripDto.taxiId ?: "", language)
+                    val taxi = deliveryService.getTaxiById(tripDto.taxiId ?: "", language)
                     tripDto.toRideTrackingResponse(taxi)
                 }.collectLatest { value ->
                     session.sendSerialized(value)

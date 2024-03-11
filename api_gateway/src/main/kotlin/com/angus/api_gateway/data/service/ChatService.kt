@@ -10,10 +10,11 @@ import com.angus.api_gateway.data.model.MessageDto
 import com.angus.api_gateway.data.model.TicketDto
 import com.angus.api_gateway.data.utils.*
 import com.angus.api_gateway.util.APIs
+import org.koin.core.annotation.Named
 
 @Single
 class ChatService(
-    private val client: HttpClient,
+    @Named("chat_client") private val client: HttpClient,
     private val attributes: Attributes,
     private val errorHandler: ErrorHandler,
 ) {
