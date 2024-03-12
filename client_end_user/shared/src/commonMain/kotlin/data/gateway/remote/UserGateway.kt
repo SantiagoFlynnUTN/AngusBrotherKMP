@@ -8,7 +8,6 @@ import data.remote.mapper.toUserRegistrationDto
 import data.remote.model.AddressDto
 import data.remote.model.NotificationHistoryDto
 import data.remote.model.PaginationResponse
-import data.remote.model.RestaurantDto
 import data.remote.model.ServerResponse
 import data.remote.model.SessionDto
 import data.remote.model.UserDetailsDto
@@ -52,7 +51,9 @@ class UserGateway(
     }
 
     override suspend fun loginUser(
-        username: String, password: String, deviceToken: String,
+        username: String,
+        password: String,
+        deviceToken: String,
     ): Session {
         return tryToExecute<ServerResponse<SessionDto>> {
             submitForm(
@@ -61,7 +62,7 @@ class UserGateway(
                     append("username", username)
                     append("password", password)
                     append("token", deviceToken)
-                }
+                },
             ) {
                 method = HttpMethod.Post
             }
@@ -113,13 +114,12 @@ class UserGateway(
                 formParameters = Parameters.build {
                     fullName?.let { append("fullName", it) }
                     phone?.let { append("phone", it) }
-                }
+                },
             ) {
                 method = HttpMethod.Put
             }
         }.value?.toEntity()
             ?: throw AuthorizationException.InvalidCredentialsException("Invalid Credential")
-
     }
 
     override suspend fun getFavoriteRestaurants(): List<Restaurant> {
@@ -127,7 +127,7 @@ class UserGateway(
     /*return tryToExecute<ServerResponse<List<RestaurantDto>>> {
             get("/user/favorite")
         }.value?.map { it.toEntity() } ?: throw NotFoundException("Not found")
-    */}
+    */ }
 
     override suspend fun addRestaurantToFavorites(restaurantId: String): Boolean {
         return tryToExecute<ServerResponse<Boolean>> {
@@ -135,7 +135,7 @@ class UserGateway(
                 url = ("/user/favorite"),
                 formParameters = Parameters.build {
                     append("restaurantId", restaurantId)
-                }
+                },
             ) {
                 method = HttpMethod.Post
             }
@@ -148,7 +148,7 @@ class UserGateway(
                 url = ("/user/favorite"),
                 formParameters = Parameters.build {
                     append("restaurantId", restaurantId)
-                }
+                },
             ) {
                 method = HttpMethod.Delete
             }

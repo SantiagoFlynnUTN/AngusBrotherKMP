@@ -35,39 +35,6 @@ class ApiClientModule {
         return Attributes(true)
     }
 
-    @Single
-    @Named("other_client")
-    fun provideOtherHttpClient(
-        clientAttributes: Attributes,
-    ): HttpClient {
-        return HttpClient(CIO) {
-            install(Logging) {
-                logger = Logger.DEFAULT
-                level = LogLevel.ALL
-            }
-
-            install(WebSockets) {
-                contentConverter = KotlinxWebsocketSerializationConverter(Json)
-                pingInterval = 20.seconds.inWholeMilliseconds
-            }
-
-            defaultRequest {
-                header("Content-Type", "application/json")
-                val host = apiHosts[clientAttributes[AttributeKey("API")]]
-                url("http://$host")
-            }
-
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                    }
-                )
-            }
-        }
-    }
-
     fun createHttpClient(apiHostKey: APIs): HttpClient {
         return HttpClient(CIO) {
             install(Logging) {
@@ -99,37 +66,37 @@ class ApiClientModule {
 
     @Single
     @Named("identity_client")
-    fun provideIdentityHttpClient(clientAttributes: Attributes): HttpClient {
+    fun provideIdentityHttpClient(): HttpClient {
         return createHttpClient(APIs.IDENTITY_API)
     }
 
     @Single
     @Named("chat_client")
-    fun provideChatHttpClient(clientAttributes: Attributes): HttpClient {
+    fun provideChatHttpClient(): HttpClient {
         return createHttpClient(APIs.CHAT_API)
     }
 
     @Single
     @Named("location_client")
-    fun provideLocationHttpClient(clientAttributes: Attributes): HttpClient {
+    fun provideLocationHttpClient(): HttpClient {
         return createHttpClient(APIs.LOCATION_API)
     }
 
     @Single
     @Named("notification_client")
-    fun provideNotificationHttpClient(clientAttributes: Attributes): HttpClient {
+    fun provideNotificationHttpClient(): HttpClient {
         return createHttpClient(APIs.NOTIFICATION_API)
     }
 
     @Single
     @Named("restaurant_client")
-    fun provideRestaurantHttpClient(clientAttributes: Attributes): HttpClient {
+    fun provideRestaurantHttpClient(): HttpClient {
         return createHttpClient(APIs.RESTAURANT_API)
     }
 
     @Single
     @Named("delivery_client")
-    fun provideDeliveryHttpClient(clientAttributes: Attributes): HttpClient {
+    fun provideDeliveryHttpClient(): HttpClient {
         return createHttpClient(APIs.DELIVERY_API)
     }
 }

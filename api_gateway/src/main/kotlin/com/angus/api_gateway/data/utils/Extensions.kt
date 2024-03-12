@@ -45,7 +45,7 @@ suspend inline fun <reified T> HttpClient.tryToExecuteWebSocket(
     attributes: Attributes
 ): Flow<T> {
     attributes.put(AttributeKey("API"), api.value)
-    val host = api.value
+    val host = apiHosts[api.value]
     return flow {
         webSocket(urlString = "ws://$host$path") {
             while (true) {

@@ -107,9 +107,11 @@ class HomeScreen : BaseScreen<
 
     @Composable
     override fun onRender(state: HomeScreenUiState, listener: HomeScreenInteractionListener) {
-        println("onRender " +
+        println(
+            "onRender " +
                 "showCart ${state.showCart} " +
-                "loggedIn> ${state.isLoggedIn}")
+                "loggedIn> ${state.isLoggedIn}",
+        )
         BottomSheet(
             sheetContent = {
                 if (state.showMealSheet) {
