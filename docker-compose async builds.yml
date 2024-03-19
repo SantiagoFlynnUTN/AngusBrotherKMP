@@ -9,8 +9,6 @@ services:
       PORT: 8081
 
   service_delivery: 
-    depends_on:
-      - service_chat
     build: ./service_delivery
     ports:
       - "8086:8086"
@@ -19,8 +17,6 @@ services:
       PORT: 8086
 
   service_location:
-    depends_on:
-      - service_delivery
     build: ./service_location
     ports:
       - "8083:8083"
@@ -29,8 +25,6 @@ services:
       PORT: 8083
 
   service_restaurant:
-    depends_on:
-      - service_location
     build: ./service_restaurant
     ports:
       - "8085:8085"
@@ -39,8 +33,6 @@ services:
       PORT: 8085
 
   service_identity:
-    depends_on:
-      - service_restaurant
     build: ./service_identity
     ports:
       - "8082:8082"
@@ -49,8 +41,6 @@ services:
       PORT: 8082
 
   service_notification:
-    depends_on:
-      - service_identity
     build: ./service_notification
     ports:
       - "8084:8084"
@@ -59,8 +49,6 @@ services:
       PORT: 8084
 
   api_gateway:
-    depends_on:
-      - service_notification
     build: ./api_gateway
     ports:
       - "8080:8080"
@@ -71,6 +59,13 @@ services:
       RESTAURANT_API: service_restaurant:8085
       IDENTITY_API: service_identity:8082
       NOTIFICATION_API: service_notification:8084
+    depends_on:
+      - service_chat
+      - service_delivery
+      - service_location
+      - service_restaurant
+      - service_identity
+      - service_notification
 
 networks:
   default:

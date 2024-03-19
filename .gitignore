@@ -17,6 +17,7 @@ shared/shared.podspec
 service_identity/local.properties
 !**/EnvConfig.kt
 **/EnvConfig.kt
+/env.sh
 /client_end_user/.idea/.gitignore
 /client_end_user/.idea/.name
 /client_end_user/.idea/artifacts/common_desktop_1_0_SNAPSHOT.xml
