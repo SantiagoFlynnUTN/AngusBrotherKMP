@@ -36,7 +36,7 @@ val networkModule = module {
 
             defaultRequest {
                 header("Content-Type", "application/json")
-                url("http://192.168.0.215:8080/")
+                url("http://24.144.71.186:8080/")
 //                url("http://192.168.1.17:8081/")
 //                url("http://10.0.0.47:8095/")
             }
@@ -45,7 +45,7 @@ val networkModule = module {
                 contentConverter = KotlinxWebsocketSerializationConverter(Json)
                 val urlBuilder = URLBuilder(
                     protocol = URLProtocol.WS,
-                    host = "192.168.0.215:8080/",
+                    host = "24.144.71.186:8080/",
 //    Local         host = "192.168.1.100",
 //    Local         port = 8081
                 )
