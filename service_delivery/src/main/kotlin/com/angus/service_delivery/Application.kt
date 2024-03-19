@@ -6,7 +6,7 @@ import io.ktor.server.netty.Netty
 import com.angus.service_taxi.plugins.*
 
 fun main() {
-    embeddedServer(Netty, port = 8086, host = "192.168.0.215", module = Application::module)
+    embeddedServer(Netty, port = 8086, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 

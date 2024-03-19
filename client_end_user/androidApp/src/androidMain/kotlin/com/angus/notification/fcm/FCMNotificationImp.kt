@@ -24,7 +24,7 @@ class FCMNotificationImp(private val context: Context) : IFCMNotification {
     }
 
     companion object {
-        const val USER_NOTIFICATION_URI = "http://192.168.0.215:8080/"
+        const val USER_NOTIFICATION_URI = "http://0.0.0.0:8080/"
 //        const val USER_NOTIFICATION_URI = "http://192.168.1.17:8081/"
         private const val flag = PendingIntent.FLAG_IMMUTABLE
     }

@@ -13,7 +13,7 @@ plugins {
     id("application")
 }
 
-group = "com.angus.service_taxi"
+group = "com.angus.service_delivery"
 version = "0.0.1"
 application {
     mainClass.set("com.angus.service_taxi.ApplicationKt")
@@ -23,7 +23,7 @@ application {
 
 ktor {
     fatJar {
-        archiveFileName.set("service_taxi.jar")
+        archiveFileName.set("service_delivery.jar")
     }
 }
 

@@ -1,0 +1,72 @@
+version: '3.8'
+services:
+  service_chat:
+    build: ./service_chat
+    ports:
+      - "8081:8081"
+    environment:
+      HOST: service_chat
+      PORT: 8081
+
+  service_delivery: 
+    build: ./service_delivery
+    ports:
+      - "8086:8086"
+    environment:
+      HOST: service_delivery
+      PORT: 8086
+
+  service_location:
+    build: ./service_location
+    ports:
+      - "8083:8083"
+    environment:
+      HOST: service_location
+      PORT: 8083
+
+  service_restaurant:
+    build: ./service_restaurant
+    ports:
+      - "8085:8085"
+    environment:
+      HOST: service_restaurant
+      PORT: 8085
+
+  service_identity:
+    build: ./service_identity
+    ports:
+      - "8082:8082"
+    environment:
+      HOST: service_identity
+      PORT: 8082
+
+  service_notification:
+    build: ./service_notification
+    ports:
+      - "8084:8084"
+    environment:
+      HOST: service_notification
+      PORT: 8084
+
+  api_gateway:
+    build: ./api_gateway
+    ports:
+      - "8080:8080"
+    environment:
+      CHAT_API: service_chat:8081
+      TAXI_API: service_delivery:8086
+      LOCATION_API: service_location:8083
+      RESTAURANT_API: service_restaurant:8085
+      IDENTITY_API: service_identity:8082
+      NOTIFICATION_API: service_notification:8084
+    depends_on:
+      - service_chat
+      - service_delivery
+      - service_location
+      - service_restaurant
+      - service_identity
+      - service_notification
+
+networks:
+  default:
+    driver: bridge

@@ -1,15 +1,5 @@
 package com.angus.api_gateway.data.service
 
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
-import io.ktor.util.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import org.koin.core.annotation.Single
 import com.angus.api_gateway.data.model.MealRequestDto
 import com.angus.api_gateway.data.model.PaginationResponse
 import com.angus.api_gateway.data.model.offer.OfferDto
@@ -19,7 +9,17 @@ import com.angus.api_gateway.data.utils.ErrorHandler
 import com.angus.api_gateway.data.utils.tryToExecute
 import com.angus.api_gateway.data.utils.tryToExecuteWebSocket
 import com.angus.api_gateway.util.APIs
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.util.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 
 @Single
 class RestaurantService(
@@ -35,7 +35,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/restaurant-permission-request") {
                 body = Json.encodeToString(RestaurantRequestPermissionDto.serializer(), requestedForm)
@@ -48,7 +48,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/restaurant-permission-request") }
+            method = { get("/restaurant-permission-request") },
         )
     }
 
@@ -58,7 +58,7 @@ class RestaurantService(
             APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/restaurant/$restaurantId") }
+            method = { get("/restaurant/$restaurantId") },
         )
     }
 
@@ -67,7 +67,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             val url = if (isAdmin) {
                 "/restaurant"
@@ -85,7 +85,7 @@ class RestaurantService(
         client.tryToExecute<PaginationResponse<RestaurantDto>>(
             APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/restaurants") {
                 body = Json.encodeToString(RestaurantOptions.serializer(), restaurantOptions)
@@ -97,7 +97,7 @@ class RestaurantService(
         client.tryToExecute<List<RestaurantDto>>(
             APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/restaurants/favorite") {
                 body = Json.encodeToString(restaurantIds)
@@ -109,7 +109,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/restaurants/$ownerId") }
+            method = { get("/restaurants/$ownerId") },
         )
     }
 
@@ -118,7 +118,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/restaurant") {
                 body = Json.encodeToString(RestaurantDto.serializer(), restaurant)
@@ -131,7 +131,7 @@ class RestaurantService(
             APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorHandler.getLocalizedErrorMessage(it, languageCode) },
-            method = { delete("/restaurant/$restaurantId") }
+            method = { delete("/restaurant/$restaurantId") },
         )
     }
 
@@ -143,7 +143,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("meal/$mealId") }
+            method = { get("meal/$mealId") },
         )
     }
 
@@ -156,7 +156,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             get("restaurant/$restaurantId/meals") {
                 parameter("page", page)
@@ -169,7 +169,7 @@ class RestaurantService(
         client.tryToExecute<List<CuisineDetailsDto>>(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             get("/restaurant/$restaurantId/cuisineMeals")
         }
@@ -184,19 +184,19 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/cuisine/$cuisineId/meals?page=$page&limit=$limit") }
+            method = { get("/cuisine/$cuisineId/meals?page=$page&limit=$limit") },
         )
     }
 
     @OptIn(InternalAPI::class)
     suspend fun addMeal(mealDto: MealDto, languageCode: String): MealDto {
-        val testVariations = VariationDto(emptyList()) //VariationDto(listOf("Simple", "Doble", "Triple"))
+        val testVariations = VariationDto(emptyList()) // VariationDto(listOf("Simple", "Doble", "Triple"))
         val newMeal = mealDto.copy(variations = listOf(testVariations))
         val mybody = Json.encodeToString(MealDto.serializer(), newMeal)
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/meal") {
                 body = mybody
@@ -209,7 +209,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             put("/meal") { body = Json.encodeToString(MealDto.serializer(), mealDto) }
         }
@@ -223,7 +223,7 @@ class RestaurantService(
         return client.tryToExecute<CuisineDto>(
             APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/cuisine") {
                 body = Json.encodeToString(CuisineDto.serializer(), cuisineDto)
@@ -236,7 +236,7 @@ class RestaurantService(
             APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/cuisines") }
+            method = { get("/cuisines") },
         )
     }
 
@@ -245,7 +245,7 @@ class RestaurantService(
             APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorHandler.getLocalizedErrorMessage(it, languageCode) },
-            method = { delete("/cuisine/$cuisineId") }
+            method = { delete("/cuisine/$cuisineId") },
         )
     }
     //endregion
@@ -255,7 +255,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) },
         ) {
             get("/cart/$userId")
         }
@@ -265,7 +265,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) },
         ) {
             put("/cart/${meal.userId}") {
                 parameter("restaurantId", meal.restaurantId)
@@ -280,7 +280,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) },
         ) {
             put("/cart/$userId/replace") {
                 body = Json.encodeToString(CartDto.serializer(), cart)
@@ -292,7 +292,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) },
         ) {
             post("/cart/$userId/orderNow")
         }
@@ -301,7 +301,7 @@ class RestaurantService(
         return client.tryToExecute(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) },
         ) {
             put("/cart/$userId/clear")
         }
@@ -315,7 +315,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { put("/order/$orderId") }
+            method = { put("/order/$orderId") },
         )
     }
 
@@ -324,7 +324,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { post("/order/cancel/$orderId") }
+            method = { post("/order/cancel/$orderId") },
         )
     }
 
@@ -338,7 +338,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/restaurant/$restaurantId/history?page=$page&&limit=$limit") }
+            method = { get("/order/restaurant/$restaurantId/history?page=$page&&limit=$limit") },
         )
     }
 
@@ -352,7 +352,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/user/$userId/history?page=$page&&limit=$limit") }
+            method = { get("/order/user/$userId/history?page=$page&&limit=$limit") },
         )
     }
 
@@ -365,7 +365,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/count-by-days-back?restaurantId=$restaurantId&&daysBack=$daysBack") }
+            method = { get("/order/count-by-days-back?restaurantId=$restaurantId&&daysBack=$daysBack") },
         )
     }
 
@@ -378,7 +378,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/revenue-by-days-back?restaurantId=$restaurantId&&daysBack=$daysBack") }
+            method = { get("/order/revenue-by-days-back?restaurantId=$restaurantId&&daysBack=$daysBack") },
         )
     }
 
@@ -411,7 +411,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/$restaurantId/orders") }
+            method = { get("/order/$restaurantId/orders") },
         )
     }
 
@@ -420,7 +420,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/user/$userId/orders") }
+            method = { get("/order/user/$userId/orders") },
         )
     }
 
@@ -429,7 +429,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/$orderId") }
+            method = { get("/order/$orderId") },
         )
     }
 
@@ -438,7 +438,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
-            method = { get("/order/isExisted/$orderId") }
+            method = { get("/order/isExisted/$orderId") },
         )
     }
 
@@ -446,7 +446,7 @@ class RestaurantService(
         return client.tryToExecute<Boolean>(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            method = { delete("/restaurant/owner/$id") }
+            method = { delete("/restaurant/owner/$id") },
         )
     }
 
@@ -456,7 +456,7 @@ class RestaurantService(
             attributes = attributes,
             setErrorMessage = { errorCodes ->
                 errorHandler.getLocalizedErrorMessage(errorCodes, languageCode)
-            }
+            },
         ) {
             get("/restaurants/search") {
                 parameter("query", query)
@@ -471,7 +471,7 @@ class RestaurantService(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
             setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, language) },
-            method = { get("/restaurant/isExisted/$restaurantId") }
+            method = { get("/restaurant/isExisted/$restaurantId") },
         )
     }
     //endregion
@@ -481,7 +481,7 @@ class RestaurantService(
     suspend fun addOffer(offer: OfferDto, languageCode: String) = client.tryToExecute<OfferDto>(
         APIs.RESTAURANT_API,
         attributes = attributes,
-        setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+        setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
     ) {
         post("/category") {
             body = Json.encodeToString(OfferDto.serializer(), offer)
@@ -494,7 +494,7 @@ class RestaurantService(
         client.tryToExecute<Boolean>(
             APIs.RESTAURANT_API,
             attributes = attributes,
-            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+            setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
         ) {
             post("/category/$offerId/restaurants") {
                 body = Json.encodeToString(ListSerializer(String.serializer()), restaurantIds)
@@ -504,13 +504,13 @@ class RestaurantService(
     suspend fun getOffers(languageCode: String) = client.tryToExecute<List<OfferDto>>(
         APIs.RESTAURANT_API,
         attributes = attributes,
-        setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+        setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
     ) { get("/categories") }
 
     suspend fun getOffersWithRestaurants(languageCode: String) = client.tryToExecute<List<OfferRestaurantsDto>>(
         APIs.RESTAURANT_API,
         attributes = attributes,
-        setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) }
+        setErrorMessage = { errorCodes -> errorHandler.getLocalizedErrorMessage(errorCodes, languageCode) },
     ) { get("/categories/restaurants") }
     //endregion
 
@@ -518,7 +518,7 @@ class RestaurantService(
         client.tryToExecute<Boolean>(
             api = APIs.RESTAURANT_API,
             attributes = attributes,
-            method = { delete("/restaurant/allCollections") }
+            method = { delete("/restaurant/allCollections") },
         )
     }
 }

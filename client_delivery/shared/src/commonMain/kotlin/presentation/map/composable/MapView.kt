@@ -30,9 +30,9 @@ fun MapView(
             """.trimIndent()
 
     val icon1 =
-        "http://192.168.0.215:8080/Cheese_0.9092009843595866.png"
+        "http://0.0.0.0:8080/Cheese_0.9092009843595866.png"
     val icon2 =
-        "http://192.168.0.215:8080/Cheese_Pizzaa0.027885622802020227.png"
+        "http://0.0.0.0:8080/Cheese_Pizzaa0.027885622802020227.png"
 
     stateWebView.settings.javaScriptEnabled = true
     WebView(

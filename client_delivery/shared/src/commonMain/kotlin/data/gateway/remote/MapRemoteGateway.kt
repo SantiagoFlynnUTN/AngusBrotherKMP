@@ -25,7 +25,7 @@ class MapRemoteGateway(client: HttpClient) : IMapRemoteGateway, BaseRemoteGatewa
     }
 
     override suspend fun sendLocation(location: Location, tripId: String) {
-        client.ws(urlString = "ws://192.168.0.215:8080/location/send/$tripId") {
+        client.ws(urlString = "ws://0.0.0.0:8080/location/send/$tripId") {
             pingIntervalMillis = 100000
             try {
                 sendSerialized(location.toDto())

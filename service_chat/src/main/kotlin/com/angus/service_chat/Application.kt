@@ -7,7 +7,7 @@ import com.angus.service_chat.plugins.*
 import com.angus.service_chat.plugins.configureSerialization
 
 fun main() {
-    embeddedServer(Netty, port = 8081, host = "192.168.0.215", module = Application::module)
+    embeddedServer(Netty, port = 8081, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 

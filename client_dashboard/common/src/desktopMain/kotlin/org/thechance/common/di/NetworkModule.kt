@@ -23,7 +23,7 @@ val NetworkModule = module {
                 level = LogLevel.ALL
             }
             defaultRequest {
-                url("http://192.168.0.215:8080")
+                url("http://0.0.0.0:8080")
                 header("Application-Id", "3000")
                 contentType(ContentType.Application.Json)
                 logger.debug("Request: $url")

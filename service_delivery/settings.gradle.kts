@@ -1,1 +1,1 @@
-rootProject.name = "com.angus.service_taxi"
+rootProject.name = "com.angus.service_delivery"
