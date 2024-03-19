@@ -39,7 +39,7 @@ https://github.com/SantiagoFlynnUTN/AngusB/assets/26491668/820e9acd-8eba-4332-b2
 * Delivery Service (Ktor).
 * Location Service (Ktor).
 * Notification Service (Ktor).
-* Chat Service (A microservice written in Kotlin using Ktor).
+* Chat Service (Ktor).
 
 ## Technologies
 - [compose-multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
