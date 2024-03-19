@@ -20,13 +20,12 @@ fun OrderWithRestaurant.toHistoryEntity() = Order(
 
 fun List<OrderWithRestaurant>.toHistoryEntity() = map { it.toHistoryEntity() }
 
-
 fun CartCollection.MealCollection.toMealHistoryEntity() = OrderedMeal(
     meadId = mealId.toString(),
     quantity = quantity,
     image = image,
     name = name,
-    price = price
+    price = price,
 )
 
 fun OrderWithRestaurant.toOrderEntity(): Order {
@@ -40,6 +39,6 @@ fun OrderWithRestaurant.toOrderEntity(): Order {
         totalPrice = totalPrice,
         currency = restaurant.currency,
         createdAt = createdAt,
-        status = Order.Status.getOrderStatus(orderStatus)
+        status = Order.Status.getOrderStatus(orderStatus),
     )
 }

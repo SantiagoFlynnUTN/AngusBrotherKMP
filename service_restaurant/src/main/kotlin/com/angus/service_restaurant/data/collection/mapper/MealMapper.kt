@@ -32,7 +32,7 @@ fun MealCollection.toEntity() = Meal(
     price = price,
     currency = currency,
     image = image,
-    variations = variations?.toEntity().also { println("SIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ${it?.size} ${it?.firstOrNull()?.variations?.size}") }
+    variations = variations?.toEntity()
 )
 
 fun MealWithCuisines.toEntity() = MealDetails(
@@ -45,7 +45,7 @@ fun MealWithCuisines.toEntity() = MealDetails(
     cuisines = cuisines.toEntity(),
     image = image,
     restaurantName = name,
-    variations = variations?.toEntity().also { println("SIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ${it?.size}") }
+    variations = variations?.toEntity()
 )
 
 fun List<MealCollection>.toMealEntity(): List<Meal> = this.map { it.toEntity() }

@@ -7,7 +7,7 @@ import com.angus.service_restaurant.plugins.*
 import com.angus.service_restaurant.plugins.configureDependencyInjection
 
 fun main() {
-    embeddedServer(Netty, port = 8085, host = "192.168.0.215", module = Application::module).start(wait = true)
+    embeddedServer(Netty, port = 8085, host = "0.0.0.0", module = Application::module).start(wait = true)
 }
 
 fun Application.module() {

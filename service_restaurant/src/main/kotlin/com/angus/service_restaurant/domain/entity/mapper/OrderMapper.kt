@@ -4,7 +4,6 @@ import com.angus.service_restaurant.domain.entity.Cart
 import com.angus.service_restaurant.domain.entity.Order
 import com.angus.service_restaurant.domain.utils.currentDateTime
 
-
 fun Cart.toOrder() = Order(
     id = "",
     userId = userId,
@@ -13,7 +12,7 @@ fun Cart.toOrder() = Order(
     restaurantImage = restaurantImage ?: "",
     meals = meals ?: emptyList(),
     createdAt = currentDateTime(),
-    status =  Order.Status.PENDING,
+    status = Order.Status.PENDING,
     totalPrice = totalPrice,
-    currency = currency ?: ""
+    currency = currency ?: "",
 )

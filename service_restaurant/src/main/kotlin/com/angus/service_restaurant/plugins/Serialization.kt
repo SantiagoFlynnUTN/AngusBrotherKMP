@@ -8,6 +8,10 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
+import kotlinx.datetime.Instant
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import org.litote.kmongo.serialization.InstantSerializer
 
 fun Application.configureSerialization() {
     install(ContentNegotiation) {
