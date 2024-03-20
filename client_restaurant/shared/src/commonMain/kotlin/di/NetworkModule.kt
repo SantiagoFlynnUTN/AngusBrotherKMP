@@ -36,7 +36,7 @@ val NetworkModule = module {
             defaultRequest {
                 header("Content-Type", "application/json")
                 header("Accept-Language", "en")
-                url("http://192.168.0.215:8080/")
+                url("http://24.144.71.186:8080/")
 //                url("http://192.168.1.17:8081/")
             }
 
@@ -50,7 +50,7 @@ val NetworkModule = module {
             }
             install(WebSockets) {
                 contentConverter = KotlinxWebsocketSerializationConverter(Json)
-                Url("ws://192.168.0.215:8080/")
+                Url("ws://24.144.71.186:8080/")
             }
         }
         intercept(client)
