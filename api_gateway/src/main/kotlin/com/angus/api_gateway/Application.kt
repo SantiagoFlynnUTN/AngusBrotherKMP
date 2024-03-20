@@ -10,8 +10,8 @@ import com.angus.api_gateway.util.EnvConfig
 fun main() {
     embeddedServer(
         Netty,
-        port = System.getenv("API_GATEWAY_PORT")?.toInt() ?: EnvConfig.API_GATEWAY_PORT,
-        host = System.getenv("API_GATEWAY_HOST") ?: EnvConfig.API_GATEWAY_HOST,
+        port = 8080,
+        host = "0.0.0.0",
         module = Application::module,
     ).start(wait = true)
 }
