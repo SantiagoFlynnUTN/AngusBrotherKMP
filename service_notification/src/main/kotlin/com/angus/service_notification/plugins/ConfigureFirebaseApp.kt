@@ -8,19 +8,20 @@ import io.ktor.server.application.*
 import java.io.ByteArrayInputStream
 
 fun Application.configureFirebaseApp() {
-    val credentialsString = """{
-        "type": "service_account",
-        "project_id": "ktorproject-200f5",
-        "private_key_id": "8ac5e34a1fb2404f95c8120043e67b782a26b107",
-        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4kn+7F48T06KT\nJ6FAyO9kYDpmUq9waAPbIFCXqvomLRHWxe/k44a29isgCjMTzculiRMoVgZpRaK1\nesQwD4/L9vCNd10phdUyMOjcy7BgCNjKQtt82bDUj7SJBXdHmKCkBiWhsHlF2tk3\nFJ0T1ARnbVkEGXFCTyLKA35BGlsCg09UuQyXsySR2eMnIUTOR506TcqVgH1R8mP5\nxQmZtOJh/M6S5501Js2ZoVGBeYjPWaka9GOo0UD5Q38KvLVOV5F4j5JRvqMTtBZo\nhU00YP5cpFz+lGqHUxhxinKij2Wo9I7hS7lby2MYnc8QlcK3xk/8C43uwPvz1q8h\njiaFL95LAgMBAAECggEAGK/SO8uhNyKrGl7w7NcIsKFE+Q39fzMPs6MKhIQO5JpJ\n9N28Ah5YlLzaScpzcyZRzbicLQdMi49lKDwyZMdAEXoxnzT5lfsw59SuNhIHFjaO\nCzI5ZI/tXJDtXG0Ju4lzkFzDcxvv1zhireuo6CUHLcTsug/5G8hf5oCPG4ATRNjh\nQmniVLVxfzQhO6xZoiN2IQqJ187AdwcnLL1h6gl5EIDaPbuBl6Z1aX7MC94JgyC9\nkUgzyz2S6IWkTHxo5OYA5oB1VJ4mXBdyjXGWEqQXnySMhBZqp/kvZyNpffW4EmU2\nxMqlhtbEuHTfyMypOKCkxBbyDe3Mjbgg7WSIiZE/QQKBgQD6RMH+42cJaileRo3+\nJjyKdWNPAH4V+L7GD/vLdojYBef7OMITAuun43L2etCJqkFwDxNzqZoOeMDb//es\nL4H+74aIkm0ht8b7KvXSNZd4Pa1G1suqcTh067G/XltCcYGdoBPHsEulhVdwkA5g\nD9Dy01RXQu7WLZQtg6LOJaxsKwKBgQC8zJXUC9wq6CGWZWu+PumqNfzEs27myQ7B\nIK9HrNUYO5Gsj4zba4oJm7ImpuyYRVbRVt0tddDFgbYK64Tt+upQUCm5I8Tf9004\nYV8Nr0HwBUeG1B+9VuUQ6i4nm5GVGjnfD1qNXcQ6ojXcgtUvvlzORHp7lC3RNhWv\n66iuq6WmYQKBgQCuLC/+3fAVg0arD9s+Jwo3Kh8lGiilzemnGfSY0zPFc8bQ9d1L\nMdsjio21sB91z4GfJT7aXgyTScKe2XNa5+1GqRgt8An3T1kx7+IIm7eAvRvckxxG\n0GkEJgwcLOTCRxB3zLI3ZSAgX75M3lTC0f8PH7gwyqpBcJMRYe1qHpny5QKBgGRB\n+CZ8jdQzJPLqtMZ4PjlnJe2Go5PmnPEt3Cahvx95MqiCKniyqMDlbztbVTSfTbUo\n/ZcQg2b+tJ8j5plBr4AqsZ1hQ0Dz4IvaGVH5CXjeNNeCecBgDpBm60+ZKzwUizrK\nunlrm7LPRO7ugysxWbMnZiuNyq7Ym7ep2w+2kubBAoGAXqdEyXrfJvZLUiFKsGMn\ngufO5RRyZXHWo4TOSn2/42nMhbHW0hrui3Su2QQSfIMdThBH72NjngLYHdL2v6ia\nuRZ5TauIjaFUZW1GCbz442QwbqwTX2sqnjj5onnQotHZZNjdcvpcmavRSMKoIgJs\nKsCrbfUv3vyrA/y+n5HzLRg=\n-----END PRIVATE KEY-----\n",
-        "client_email": "firebase-adminsdk-scabh@ktorproject-200f5.iam.gserviceaccount.com",
-        "client_id": "111560701177549142995",
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-scabh%40ktorproject-200f5.iam.gserviceaccount.com",
-        "universe_domain": "googleapis.com"
-    }""".trimIndent()
+    val credentialsString = // System.getenv("FIREBASE_CREDENTIALS").trimIndent()
+        """{
+  "type": "service_account",
+  "project_id": "angusbrother-9ccdd",
+  "private_key_id": "e2b03f746450d19dec12084efba5d375a3dc89e5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7/qQld6Asvfl8\nmKRS8qpZTFbum6zBDrvsvab22Sx3y2/hzMoWWNcCZiMgmgUENZSUuuBOdW7sN48E\n1wtl9qgimlePUiqnPn4I/RgC2lpVCmJmuaDTTVGdIPsiAhdNFVDS0psHiRGcNI62\n2hiMYukL83K+tiwL3W5ZpXIb1R+3HmMDXTOVOFnEe0VY5CCtCJKptUOJEKAAVJQS\nm5WKenVj4LfiViBMvd7s7LlllVPn1wIWb5RzqkdIaAeqPerwg0wva2m7M6n3apms\nDh2EhwXCqftN6s4NDDVx+CrPuf7pwalRvX/GMh91PpdnvP7KolX5qmQYqRDMZ84a\nONDcZkf7AgMBAAECggEABUsmBcaBuBDOfJNIawhnrXOzH58BkZQYsDxCNyUXlbwu\n6u9iPnvYeoE0FwOIIhLum4KhmKBsAh1UYgSsXP3sb085YknrSoyhNR95+6ojV83J\njW6dAvuAw1BofI/w2CM0BJV8WtRag/qqN6dTDqJCJOSBS0A88gzOUEUg2pjHN60k\nqCVxon/8w56MQkTqLov6hPVphCFln1VVFEEUPHOfu6DB848FBgSABLg50sjMDz/a\nELMPsDbU3nVg+cAoxP3G8DH4Kp5Ppi7iOq5cA4SrA66d/uUJFnnXyXL2pQNhZacw\nHIwnKci7Nsp+TtBntHSb7twCWA4gOc+uuWG/wgdVUQKBgQD1n2r+s4IEn5pqmQXZ\nqX1oz1hTfC4RMhvbxTeVkcqjnH/xDQhQddA3jTClJ/KGVPHCqnYWb/VYEI1WCjpw\nIoDV45XyO84/ZeDUDJXG7uUyA5hNfURYPR9MiUvGpkcKjJswttUig8OCV+3XUWEq\nrCfSWOXk1buId5bnfzzH1XQgywKBgQDD7++GLJNUa5OgCmSbklCS/dEJs1+s0KnI\n2D85Umgiltdf9Mpn1G+MblYQij+4wENML1uSA6J4/CcxpkSvWkLPHUYdVIaahYiy\njA1DLCFdMlCuah79pQnX86TlFgwcWa2XG2/78g5a1v327O1+d/FiqYnPzBtrQRNx\n6AbAZ7F/kQKBgDMJxz/ZqSCw0XNpDLAn6elHfIEMgr4L/YHzPxOTUdohgOxj2uBt\nOrDwY7VN0bVcHUhoB1WuOfrspZHFWlNGuCK5wcSt7LN7xfYKD21g4rs7yAACEZuM\nR96tgNNsZcKpaO38b9lWK9//yWo+fMRTNYsd8ddVGjzHLNI5vDWCAzl1AoGAA61n\nI2+GvFjghmprhPf0By44VCRHsWihJyHX3e2MAsot9KEVg2lbRplziA/wLjl9idqB\nr3XeAMNKwQXL2DardlOoUziY5iGHdUJnpVEYtzUQipV3S29jhegOujX1uDp+pY1g\nRqw+VLogPhgoRO1fXGiuK3Y7NYIdKVAfgFDx5eECgYAGjZ8MNh8qkRv9ncrKSWro\n6ylpLfSElcJVacFR3cHYPgOJhSL4PU8PoWeKKQuTANJggnZluRku8mMd8zI+h8he\n/b+ErIO4fSDzQPZ/r/GKpFOJRahhsiR6mDLVfJLU+Rwere1Qk/t4VSalQI51GcUJ\nmlK4DJjbkyHCXvgQ0amNrA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-zkh96@angusbrother-9ccdd.iam.gserviceaccount.com",
+  "client_id": "112707205384089849800",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-zkh96%40angusbrother-9ccdd.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}""".trimIndent()
 
     val credentialsJson = JsonParser.parseString(credentialsString).asJsonObject
     val options = FirebaseOptions.builder()

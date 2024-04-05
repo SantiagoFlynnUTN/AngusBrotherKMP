@@ -1,6 +1,5 @@
 package data.gateway.remote.pagesource
 
-
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
@@ -21,9 +20,8 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                 PagingSourceLoadResultPage(
                     data = response.items,
                     prevKey = if (currentPage == 1) null else currentPage - 1,
-                    nextKey =  (currentPage + 1).takeIf { response.items.lastIndex >= currentPage }
+                    nextKey = (currentPage + 1).takeIf { response.items.lastIndex >= currentPage },
                     )
-
         } catch (e: Exception) {
             PagingSourceLoadResultError(e)
         }
@@ -32,5 +30,4 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
     override fun getRefreshKey(state: PagingState<Int, Value>): Int? {
         return state.anchorPosition
     }
-
 }
