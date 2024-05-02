@@ -19,6 +19,9 @@ import com.angus.api_gateway.endpoints.utils.extractLocalizationHeader
 import com.angus.api_gateway.endpoints.utils.respondWithResult
 import com.angus.api_gateway.util.Claim
 import com.angus.api_gateway.util.Role
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 
 fun Route.orderRoutes() {
     val webSocketServerHandler: WebSocketServerHandler by inject()
@@ -154,6 +157,16 @@ fun Route.orderRoutes() {
             webSocketServerHandler.sessions[orderId] = this
             webSocketServerHandler.sessions[orderId]?.let {
                 webSocketServerHandler.tryToCollect(order, it)
+
+                order.flowOn(Dispatchers.IO).collect { value ->
+                    val orderNotification = NotificationDto(
+                    title = "testing",
+                    body = "test order",
+                    userId = value.userId,
+                    topicId = "",
+                    sender = NotificationSender.RESTAURANT.code,
+                )
+                    notificationService.sendNotificationToUser(orderNotification, "EN")}
             }
         }
 
