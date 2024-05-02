@@ -15,8 +15,8 @@ class PushNotificationGateway(private val firebaseMessaging: FirebaseMessaging) 
                         .setTitle(title)
                         .setBody(body)
                         .build()
-                )
-                .setAndroidConfig(
+                ).setToken(it).build()
+                /*.setAndroidConfig(
                     AndroidConfig.builder()
                         .setTtl(3600 * 1000)
                         .setNotification(
@@ -41,7 +41,7 @@ class PushNotificationGateway(private val firebaseMessaging: FirebaseMessaging) 
                 .putData(TITLE, title)
                 .putData(BODY, body)
                 .setToken(it)
-                .build()
+                .build()*/
         })
         return response.failureCount == 0
     }
