@@ -13,6 +13,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import data.gateway.service.IFireBaseMessageService
+import domain.gateway.local.ILocalConfigurationGateway
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -20,6 +24,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class FireBaseMsgServiceImpl() : FirebaseMessagingService(), IFireBaseMessageService {
     private val fcmNotification: IFCMNotification by inject()
+    private val localConfigGateway: ILocalConfigurationGateway by inject()
+
 
     override fun onNewToken(token: String) {
         Log.d("TAG", "Refreshed token: $token")
@@ -27,10 +33,12 @@ class FireBaseMsgServiceImpl() : FirebaseMessagingService(), IFireBaseMessageSer
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val notification = remoteMessage.notification
-        if (notification != null) {
-            val title = notification.title
-            val body = notification.body
-            showNotification(title, body)
+        CoroutineScope(Dispatchers.IO).launch {
+            if (notification != null) {
+                val title = notification.title
+                val body = notification.body + localConfigGateway.getAccessToken()
+                showNotification(title, body)
+            }
         }
     }
 
